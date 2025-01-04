@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pediatrics Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .question { margin: 20px 0; }
+        .result { font-weight: bold; margin-top: 20px; }
+        .correct { color: green; }
+        .incorrect { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Pediatrics Quiz</h1>
+    <div id="quiz-container"></div>
+    <button onclick="submitQuiz()">Submit Answers</button>
+    <p id="result"></p>
+
+
+    <script src="pediatrics_quiz_questions.js"></script>
+    <script>
+        const quizContainer = document.getElementById("quiz-container");
+
+
+        // Render questions dynamically
+        questions.forEach((q, index) => {
+            const div = document.createElement("div");
+            div.classList.add("question");
+            div.innerHTML = `<p>${index + 1}. ${q.question}</p>`;
+            q.options.forEach((option, i) => {
+                div.innerHTML += `
+                    <label>
+                        <input type="radio" name="q${index}" value="${i}">
+                        ${option}
+                    </label><br>`;
+            });
+            quizContainer.appendChild(div);
+        });
+
+
+        // Check answers and display results
+        function submitQuiz() {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected && parseInt(selected.value) === q.answer) {
+                    score++;
+                }
+            });
+            document.getElementById("result").innerHTML = `You scored <span class="correct">${score}</span> out of ${questions.length}`;
+        }
+    </script>
+</body>
+</html>
